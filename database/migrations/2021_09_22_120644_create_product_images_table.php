@@ -23,6 +23,8 @@ class CreateProductImagesTable extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->bigInteger('order_id');
+            $table->tinyInteger('main');
             $table->timestamps();
         });
     }

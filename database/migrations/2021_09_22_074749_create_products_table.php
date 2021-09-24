@@ -18,7 +18,9 @@ class CreateProductsTable extends Migration
             $table->string('name', 400);
             $table->string('alias', 400);
             $table->string('full_path', 255)->nullable();;
-            $table->unsignedInteger('category_id')->nullable();
+            $table->foreignId('category_id')->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->string('product_code', 255)->nullable();;
             $table->string('id_1c', 255)->nullable();;
             $table->text('description')->nullable();
