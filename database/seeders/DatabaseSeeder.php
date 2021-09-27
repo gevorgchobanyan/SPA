@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\ProductOption;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -14,11 +17,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-         \App\Models\User::factory(1)->create([
-             'name' => 'Xozik',
-             'email' => 'xozik@mail.ru',
-             'password' => Hash::make('Xozik22'),
-             'email_verified_at' => null,
-         ]);
+        $this->call(UsersSeeder::class);
+        $this->call(OrderSeeder::class);
+        $this->call(CategorySeeder::class);
+        $this->call(ProductSeeder::class);
+        $this->call(OptionValueSeeder::class);
+        $this->call(OrderProductSeeder::class);
+        $this->call(ProductOptionSeeder::class);
+        $this->call(ProductCategorySeeder::class);
     }
 }
