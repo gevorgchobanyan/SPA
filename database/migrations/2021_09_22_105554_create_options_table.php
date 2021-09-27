@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateOptionsTable extends Migration
@@ -19,6 +20,12 @@ class CreateOptionsTable extends Migration
             $table->string('code', 255);
             $table->timestamps();
         });
+
+        DB::table('options')->insert([
+            ['name' => 'Размер', 'code' => 'size'],
+            ['name' => 'Цвет', 'code' => 'color'],
+            ['name' => 'Состав', 'code' => 'material'],
+        ]);
     }
 
     /**
