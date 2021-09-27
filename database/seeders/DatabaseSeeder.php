@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\ProductOption;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -22,5 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ProductSeeder::class);
         $this->call(OptionValueSeeder::class);
         $this->call(OrderProductSeeder::class);
+        $this->call(ProductOptionSeeder::class);
+        $this->call(ProductCategorySeeder::class);
     }
 }
