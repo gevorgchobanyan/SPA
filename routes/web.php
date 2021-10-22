@@ -84,12 +84,12 @@ Route::group(['namespace' => 'Client', 'middleware' => ['auth:users']], function
 Route::group(['prefix' => '/', 'namespace' => 'Client'],  function () {
 
     Route::get('/', function () {
-//        return view('app');
-        return response()->json("all good");
+        return view('app');
+//        return response()->json("all good");
     });
     Route::get('{any}', function () {
-//        return view('app');
-        return response()->json("all good");
+        return view('app');
+//        return response()->json("all good");
     })->where('any', '.*');
 
 });
