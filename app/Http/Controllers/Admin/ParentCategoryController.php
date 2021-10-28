@@ -8,7 +8,7 @@ use App\Models\ParentCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
-class CategoryController extends Controller
+class ParentCategoryController extends Controller
 {
     /**
      * Display a listing of the resource. +
@@ -17,7 +17,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-//        $allParentCategories = Category::getAllParentCategories();
+//        $allParentCategories = ParentCategory::getAllParentCategories();
         $allParentCategories = ParentCategory::all();
 
         return response()->json($allParentCategories);
@@ -42,7 +42,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         try {
-            Category::storeNewParentCategory($request);
+            ParentCategory::storeNewParentCategory($request);
             $success = true;
             $message = 'Parent Category register successfully';
         } catch (\Illuminate\Database\QueryException $ex) {
@@ -89,7 +89,7 @@ class CategoryController extends Controller
     public function update(Request $request, ParentCategory $category)
     {
         try {
-            Category::updateParentCategory($request, $category);
+            ParentCategory::updateParentCategory($request, $category);
             $success = true;
             $message = 'Parent Category updated successfully';
         } catch (\Illuminate\Database\QueryException $ex) {

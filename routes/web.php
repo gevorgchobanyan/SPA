@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\Auth\AdminAuthController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ParentCategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
@@ -29,6 +30,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin/Auth', 'middleware' => 
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth:admins_session_guard']], function () {
+
+    Route::resource('parentcategories', ParentCategoryController::class)->except([
+        'create', 'edit'
+    ]);
+
     Route::resource('categories', CategoryController::class)->except([
         'create', 'edit'
     ]);
