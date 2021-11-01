@@ -4,40 +4,42 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-//use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Models\ParentCategory;
+use Illuminate\Database\Eloquent\Builder;
+
+/**
+ * App\Models\Category
+ * @mixin Builder
+ */
+
 
 class Category extends Model
 {
     use HasFactory;
+    protected $table = 'categories';
+    protected $fillable = [
+        'name',
+        'alias',
+        'full_path',
+        'id_1c',
+        'content',
+        'seo_description',
+        'seo_keywords',
+        'seo_title',
+        'seo_h1',
+        'image_id',
+        'active'
+    ];
 
-//    public static function getAllParentCategories(): \Illuminate\Support\Collection
-//    {
-//        $parentCategories = DB::table('categories_parents')
-//            ->leftJoin('categories', 'categories_parents.category_id', '=', 'categories.id')
-//            ->where('categories_parents.depth', '<', 1)
-//            ->where('categories.active', '=', 1)
-//            ->select('categories.id', 'categories.name', 'categories.alias', 'categories.image_id')
-//            ->get();
-//        return $parentCategories;
-//    }
+    public static function updateCategory($request, $category){
 
-    public static function storeNewParentCategory($request){
+        self::where('id', $category)
+            ->update([
+                'name' => $request->name,
+                'alias' => $request->alias,
+                'full_path' => $request->full_path,
+                'id_1c' => $request->id_1c
+            ]);
 
-        $parentCategory = new ParentCategory();
-        $parentCategory->category_id = $request->category_id;
-        $parentCategory->parent_id = $request->parent_id;
-        $parentCategory->depth = $request->depth;
-        $parentCategory->save();
-    }
-
-    public static function updateParentCategory($request, $category){
-
-        $category->category_id = $request->category_id;
-        $category->parent_id = $request->parent_id;
-        $category->depth = $request->depth;
-        $category->save();
     }
 
 }

@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 
+if(version_compare(PHP_VERSION, '7.2.0', '>=')) {
+    error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
+}
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,10 +34,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin/Auth', 'middleware' => 
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth:admins_session_guard']], function () {
-
-    Route::resource('parentcategories', ParentCategoryController::class)->except([
-        'create', 'edit'
-    ]);
 
     Route::resource('categories', CategoryController::class)->except([
         'create', 'edit'
