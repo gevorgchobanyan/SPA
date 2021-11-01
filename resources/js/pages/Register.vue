@@ -18,6 +18,13 @@
                                            autofocus autocomplete="off">
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <label for="surname" class="col-sm-4 col-form-label text-md-right">Surname</label>
+                                <div class="col-md-6">
+                                    <input id="surname" type="text" class="form-control" v-model="surname" required
+                                           autofocus autocomplete="off">
+                                </div>
+                            </div>
 
                             <div class="form-group row">
                                 <label for="email" class="col-sm-4 col-form-label text-md-right">E-Mail Address</label>
@@ -66,6 +73,7 @@ export default {
     data() {
         return {
             name: "",
+            surname: "",
             email: "",
             password: "",
             password_confirmation: "",
@@ -78,8 +86,9 @@ export default {
             if (this.password.length > 0) {
                 axios.get('/sanctum/csrf-cookie').then(response => {
                     console.log(response)
-                    axios.post('api/register', {
+                    axios.post('register', {
                         name: this.name,
+                        surname: this.surname,
                         email: this.email,
                         password: this.password,
                         password_confirmation: this.password_confirmation

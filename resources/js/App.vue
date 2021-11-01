@@ -43,7 +43,7 @@ export default {
             console.log('ss')
             e.preventDefault()
             this.$axios.get('/sanctum/csrf-cookie').then(response => {
-                this.$axios.post('/api/logout')
+                this.$axios.post('logout')
                     .then(response => {
                         if (response.status >= 200 && response.status < 299) {
                             window.location.href = "/"

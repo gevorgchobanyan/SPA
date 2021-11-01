@@ -40,6 +40,26 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'admins_session_guard' => [ // required to use session guard to make use of Auth::attempt method
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
+
+        'users' => [
+            'driver' => 'sanctum',
+            'provider' => 'users',
+        ],
+
+        'admins' => [
+            'driver' => 'sanctum',
+            'provider' => 'admins',
+        ],
+
+        'api' => [
+            'driver' => 'sanctum',
+            'provider' => 'admins',
+        ],
     ],
 
     /*
@@ -65,10 +85,15 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
+
+        'api' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
     ],
 
     /*

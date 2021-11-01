@@ -1,6 +1,16 @@
 <?php
 
+use App\Http\Controllers\Admin\Auth\AdminAuthController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ParentCategoryController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
+use Laravel\Fortify\Http\Controllers\RegisteredUserController;
+
+if(version_compare(PHP_VERSION, '7.2.0', '>=')) {
+    error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -13,16 +23,79 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('app');
+
+// Routes accessible by Admins
+// Admin Auth service
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin/Auth'], function () {
+    Route::post('/login', [AdminAuthController::class, 'login']);
+});
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin/Auth', 'middleware' => ['auth:admins_session_guard']], function () { // wasn't able to figure out why auth:admins did not work while admins_session_guard works fine
+    Route::post('/logout', [AdminAuthController::class, 'logout']);
+});
+
+Route::group(['prefix' => 'admin', 'middleware' => ['auth:admins_session_guard']], function () {
+
+    Route::resource('categories', CategoryController::class)->except([
+        'create', 'edit'
+    ]);
 });
 
 
-Route::get('{any}', function () {
-    return view('app');
-})->where('any', '.*');
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-require_once __DIR__ . '/fortify.php';
+
+
+
+
+// Client (user) Auth Routes
+
+$limiter = config('fortify.limiters.login');
+
+Route::post('/login', [AuthenticatedSessionController::class, 'store'])
+    ->middleware(array_filter([
+        'guest:'.config('fortify.guard'),
+        $limiter ? 'throttle:'.$limiter : null,
+    ]));
+
+Route::post('/register', [RegisteredUserController::class, 'store'])
+    ->middleware(['guest:'.config('fortify.guard')]);
+
+Route::group(['namespace' => 'Client', 'middleware' => ['auth:users']], function () {
+
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+        ->name('logout');
+
+});
+
+
+
+
+
+
+
+
+
+
+// Routes available for authenticated Clients
+Route::group(['namespace' => 'Client', 'middleware' => ['auth:users']], function () {
+
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+});
+
+
+
+// Routes accessible by all users
+Route::group(['prefix' => '/', 'namespace' => 'Client'],  function () {
+
+    Route::get('/', function () {
+        return view('app');
+//        return response()->json("all good");
+    });
+    Route::get('{any}', function () {
+        return view('app');
+//        return response()->json("all good");
+    })->where('any', '.*');
+
+});

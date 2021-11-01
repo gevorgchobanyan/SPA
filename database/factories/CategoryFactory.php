@@ -25,7 +25,7 @@ class CategoryFactory extends Factory
             'name' => 'category'.$this->faker->name(),
             'alias'	=> 'category',
             'full_path'	=> $this->faker->filePath(),
-            'parent_id' => $this->faker->numberBetween(1,20),
+//            'parent_id' => $this->faker->numberBetween(1,20),
             'id_1c' => $this->faker->randomNumber(9),
             'order' => 99,
             'content' => 'content',
